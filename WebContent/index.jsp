@@ -73,10 +73,15 @@
 					<p class="productname"><%=product.getProdName()%>
 					</p>
 					<%
-					String description = product.getProdInfo();
-					description = description.substring(0, Math.min(description.length(), 100));
-					%>
-					<p class="productinfo"><%=description%>..
+				String description = product.getProdInfo();
+				if (description != null) {
+				    description = description.substring(0, Math.min(description.length(), 100));
+				} else {
+				    description = "No description available"; // Provide a default message
+				}
+				%>
+				<p class="productinfo"><%= description %>...</p>
+
 					</p>
 					<p class="price">
 						Rs

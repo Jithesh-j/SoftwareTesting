@@ -18,6 +18,19 @@
 		</resources>
 		<plugins>
 			<plugin>
+		    <groupId>org.pitest</groupId>
+		    <artifactId>pitest-maven</artifactId>
+		    <version>1.8.0</version>
+		    <configuration>
+		        <targetClasses>
+		            <param>com.shashi.service.*</param> <!-- Target application code -->
+		        </targetClasses>
+		        <targetTests>
+		            <param>test</param> <!-- Test class pattern -->
+		        </targetTests>
+		    </configuration>
+		</plugin>
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
@@ -37,17 +50,34 @@
 
 	<dependencies>
 		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.13.2</version> <!-- Adjust the version as needed -->
+		    <scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.33</version>
 		</dependency>
-
+		<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-junit-jupiter</artifactId>
+		    <version>5.14.2</version> <!-- Replace with the latest version -->
+		</dependency>
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-email</artifactId>
+		    <version>1.5</version> <!-- Use the latest version if newer -->
+		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api -->
 		<dependency>
