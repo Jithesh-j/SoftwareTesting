@@ -342,6 +342,16 @@ public class ProductServiceTest {
         // Assert that the sale was unsuccessful due to invalid product ID
         assertFalse(result);
     }
+    @Test
+    public void testRemoveProduct() {
+        // Add a product
+        ProductBean product = new ProductBean(prodId, prodName, prodType, prodInfo, prodPrice, prodQuantity, prodImage);
+        productService.addProduct(product);
+
+        // Remove the same product
+        String result = productService.removeProduct(prodId);
+        assertEquals("Product Removed Successfully!", result);
+    }
 
 
 
@@ -352,6 +362,6 @@ public class ProductServiceTest {
 
     
 
-    // You can add other test methods as needed
+   
 }
 

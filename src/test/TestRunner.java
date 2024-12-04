@@ -8,6 +8,20 @@ public class TestRunner {
         runner.addListener(new TestResultListner()); // Attach the listener
 
         // Run multiple test classes
-        runner.run(CartServiceTest.class, ProductServiceTest.class, UserServiceTest.class,TransServiceTest.class,DemandServiceTest.class);
+        runner.run( logoutSrv_Test.class,
+        			login_Srv_Test.class,
+        			DemandServiceTest.class,
+        			CartServiceTest.class,
+        			AddtoCart_Serv_Test.class,
+        			AddProduct_Srv_Test.class,
+        			ProductServiceTest.class, 
+        			UserServiceTest.class,
+        			TransServiceTest.class,
+        			OrderSserviceTest.class,
+        			RegisterSrv_Test.class,
+        			RemoveProduct_Srv_Test.class,
+        			FansMessageTest.class,
+        			UpdateToCartSrv_Test.class);
+        	
     }
 }

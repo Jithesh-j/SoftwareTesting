@@ -12,7 +12,7 @@ import com.shashi.service.DemandService;
 import com.shashi.utility.DBUtil;
 //This class is to process the demand items which are
 //not available at the time of purchase by any customer
-//the customer will receive mail once the product is avaible
+//the customer will receive mail once the product is available
 //back into the store
 public class DemandServiceImpl implements DemandService {
 

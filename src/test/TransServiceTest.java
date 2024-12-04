@@ -23,10 +23,10 @@ public class TransServiceTest {
         transService = new TransServiceImpl();
         initializeTransactionTestDatabase();
     }
-    @After
-    public void tearDown() {
-        clearTestDatabase();
-    }
+//    @After
+//    public void tearDown() {
+//        clearTestDatabase();
+//    }
 
 
     private void initializeTransactionTestDatabase() {

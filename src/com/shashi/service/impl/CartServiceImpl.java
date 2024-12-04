@@ -25,7 +25,7 @@ public class CartServiceImpl implements CartService {
 		PreparedStatement ps2 = null;
 		ResultSet rs = null;
 
-		try {
+		try { 
 
 			ps = con.prepareStatement("select * from usercart where username=? and prodid=?");
 
@@ -35,7 +35,7 @@ public class CartServiceImpl implements CartService {
 			rs = ps.executeQuery();
 
 			if (rs.next()) {
-
+ 
 				int cartQuantity = rs.getInt("quantity");
 
 				ProductBean product = new ProductServiceImpl().getProductDetails(prodId);

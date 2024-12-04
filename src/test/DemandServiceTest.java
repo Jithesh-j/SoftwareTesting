@@ -1,63 +1,148 @@
 package test;
-
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.assertTrue;
-import com.shashi.service.impl.DemandServiceImpl;
-import com.shashi.utility.DBUtil;
-
+import org.junit.After;
 import org.junit.Before;
-import org.mockito.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+
+import com.shashi.beans.DemandBean;
+import com.shashi.service.impl.DemandServiceImpl;
+
 
 public class DemandServiceTest {
 
-    @InjectMocks
-    private DemandServiceImpl demandService; // The class under test
-
-    @Mock
-    private Connection connection;
-
-    @Mock
-    private PreparedStatement preparedStatement;
-
-    @Mock
-    private ResultSet resultSet;
+    private DemandServiceImpl demandService;
 
     @Before
-    public void setUp() throws SQLException {
-        MockitoAnnotations.openMocks(this); // Initialize mocks
+    public void setup() {
+        demandService = new DemandServiceImpl();
     }
 
-    @org.junit.Test
-    public void testAddProduct_ProductNotYetDemanded() throws SQLException {
-        // Given
-        String userId = "user123";
-        String prodId = "prod456";
-        int demandQty = 2;
+    @After
+    public void tearDown() {
+        demandService = null;
+    }
 
-        // Mock the static method using mockStatic
-        try (MockedStatic<DBUtil> dbUtilMock = mockStatic(DBUtil.class)) {
-            // Mock DBUtil to return the mocked connection
-            dbUtilMock.when(DBUtil::provideConnection).thenReturn(connection);
+    @Test
+    public void testAddProductSuccess() {
+        String userId = "guest@gmail.com";
+        String prodId = "P20230423082243";
+        int demandQty = 10;
 
-            // Mock the prepareStatement to return the mocked preparedStatement
-            when(connection.prepareStatement(anyString())).thenReturn(preparedStatement);
+        boolean result = demandService.addProduct(userId, prodId, demandQty);
 
-            // Mock the executeQuery method to return the mocked resultSet
-            when(preparedStatement.executeQuery()).thenReturn(resultSet);
+        assertTrue(result);
+    }
 
-            // Simulate that the product demand doesn't exist
-            when(resultSet.next()).thenReturn(false);
+    @Test
+    public void testAddProductFailure() {
+        String userId = "testUser";
+        String prodId = "testProd";
+        int demandQty = 10;
 
-            // When
-            boolean result = demandService.addProduct(userId, prodId, demandQty);
+        // Add the product first to make the second addition fail
+        demandService.addProduct(userId, prodId, demandQty);
 
-            // Then
-            assertTrue(result); // The method should return true when the product is successfully added
-            verify(preparedStatement, times(1)).executeQuery(); // Verify the query was executed
-            verify(preparedStatement, times(1)).executeUpdate(); // The insert query should have been executed
-        }
+        boolean result = demandService.addProduct(userId, prodId, demandQty);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void testAddProductInvalidInput() {
+        String userId = null;
+        String prodId = "P20230423082243";
+        int demandQty = 10;
+
+        boolean result = demandService.addProduct(userId, prodId, demandQty);
+
+        assertFalse(result);
+    }
+    @Test
+    public void testRemoveProductSuccess() {
+        String userId = "testUser";
+        String prodId = "P20230423082243";
+        int demandQty = 10;
+
+        // Add the product first
+        demandService.addProduct(userId, prodId, demandQty);
+
+        boolean result = demandService.removeProduct(userId, prodId);
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void testRemoveProductFailure() {
+        String userId = "testUser";
+        String prodId = "P20230423082243";
+
+        // Try to remove a product that doesn't exist
+        boolean result = demandService.removeProduct(userId, prodId);
+
+        assertTrue(result); // Note: The method returns true even if the product doesn't exist
+    }
+
+    @Test
+    public void testRemoveProductInvalidInput() {
+        String userId = null;
+        String prodId = "P20230423082243";
+
+        boolean result = demandService.removeProduct(userId, prodId);
+
+        assertFalse(result);
+    }
+    @Test
+    public void testAddProductWithDemandBeanSuccess() {
+        String userId = "testUser";
+        String prodId = "P20230423082243";
+        int demandQty = 10;
+
+        DemandBean demandBean = new DemandBean(userId, prodId, demandQty);
+
+        boolean result = demandService.addProduct(demandBean);
+
+        assertTrue(result);
+    }
+
+
+    @Test
+    public void testHaveDemandedSuccess() {
+        String userId = "testUser";
+        String prodId = "P20230423082243";
+        int demandQty = 10;
+
+        DemandBean demandBean = new DemandBean(userId, prodId, demandQty);
+
+        demandService.addProduct(demandBean);
+
+        List<DemandBean> demandList = demandService.haveDemanded(prodId);
+
+        assertNotNull(demandList);
+        assertEquals(1, demandList.size());
+    }
+
+    @Test
+    public void testHaveDemandedFailure() {
+        String prodId = "kjf93845y85";
+
+        List<DemandBean> demandList = demandService.haveDemanded(prodId);
+
+        assertNotNull(demandList);
+        assertEquals(0, demandList.size());
+    }
+
+    @Test
+    public void testHaveDemandedInvalidInput() {
+        String prodId = null;
+
+        List<DemandBean> demandList = demandService.haveDemanded(prodId);
+
+        assertNotNull(demandList);
+        assertEquals(0, demandList.size());
     }
 }
-
