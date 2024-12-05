@@ -21,7 +21,8 @@ public class TestRunner {
         			RegisterSrv_Test.class,
         			RemoveProduct_Srv_Test.class,
         			FansMessageTest.class,
-        			UpdateToCartSrv_Test.class);
+        			UpdateToCartSrv_Test.class,
+        			OrderBeanTest.class);
         	
     }
 }

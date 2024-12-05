@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import javax.servlet.RequestDispatcher;
@@ -16,13 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.el.util.ReflectionUtil;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
-
-import com.shashi.beans.ProductBean;
-import com.shashi.service.impl.ProductServiceImpl;
 import com.shashi.srv.AddtoCart;
 
 public class AddtoCart_Serv_Test {
@@ -36,7 +31,7 @@ public class AddtoCart_Serv_Test {
     @Before
     public void setUp() throws IOException {
         servlet = new AddtoCart();
-        request = mock(HttpServletRequest.class);
+        request = mock(HttpServletRequest.class); 
         response = mock(HttpServletResponse.class);
         session = mock(HttpSession.class);
         writer = mock(PrintWriter.class);

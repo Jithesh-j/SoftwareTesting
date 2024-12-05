@@ -1,6 +1,5 @@
 package test;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,7 +24,7 @@ import com.shashi.srv.LoginSrv;
 
 public class login_Srv_Test {
 
-	@Test
+	@Test 
 	public void testValidAdminLogin() throws ServletException, IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 	    HttpServletRequest request = mock(HttpServletRequest.class);
 	    HttpServletResponse response = mock(HttpServletResponse.class);
